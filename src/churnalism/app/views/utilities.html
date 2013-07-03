@@ -1,0 +1,29 @@
+{{define "utilities"}}
+
+<div id="utilities" class="lightgrey">
+	<!-- Share --> 
+	<div id="share" class="hidden">
+		<p>Share this page</p>
+        <input class="clipboardlink" type="text" id="shareUrl" onClick="$(this).select();" />
+		<ul>
+            <li>
+                <div id="clipboardContainer">
+                    <a class="clipboardIcon shareIcon" help="Copy to clipboard" gravity="s"></a>
+                    <div id="clipboard" help="Copy to clipboard" gravity="s"></div>
+                </div>
+            </li>
+            <li><a target="_blank" class="twitterIcon shareIcon" href="#" help="Share on Twitter" gravity="s"></a></li>
+            <li><a target="_blank" class="facebookIcon shareIcon" href="#" help="Share on Facebook" gravity="s"></a></li>
+		</ul>
+	</div>
+	<!-- end Share --> 
+	<div id="searchBoxWrapper">
+			<div class="search">
+				<input type="text" size="18" value="Search saved comparisons..." name="s" id="search" onfocus="if(this.value=='Search saved comparisons...')this.value=''" onblur="if(this.value=='')this.value='Search saved comparisons...'" />
+				<input type="submit" id="searchsubmit" value="&nbsp;" />
+			</div>
+			<div id="suggestions"></div>
+	</div>
+</div>
+
+{{end}}

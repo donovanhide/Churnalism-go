@@ -1,0 +1,65 @@
+{{define "explore"}}
+{{set . "Title" "Explore"}}
+{{set . "Description" "Explore the 'churnalism' archive by newspaper, journalist and time."}}
+{{append . "moreScripts" "/static/js/jquery.isotope.js"}}
+{{append . "moreScripts" "/static/js/explore.js"}}
+{{template "header"}}
+{{template "utilities"}}
+
+<div id="explore" class="textpage">
+    <div id="textpageWrapper">
+        <h1>Explore churnalism by:</h2>
+        <div id="left">
+            <h2>Press release source</h2>
+            <ul id="scraper">
+                <li id="0" class="scraper selected">All Sources</li>
+                {{range .Scrapers }}
+                <li id="{{.Id}}" class="scraper">{{.Name}}</li>
+                {{end}}
+                <li id="999" class="scraper">User Submitted</li>
+            </ul>
+        </div>
+        <div id="right">
+            <h2>News outlet</h2>
+            <ul id="source">
+                <li id="0" class="source selected">All outlets</li>
+                {{range .Sources}}
+                <li id="{{.Id}}" class="source">{{.Name}}</li>
+                {{end}}
+            </ul>
+        </div>
+        <div id="results">
+            <div id="count">
+                <span id="countDescription"></span>
+                <div class="filter-sort">
+                    Sort By
+                    <select id="sort" class="filterSort sort-drop-down">
+                        <option value="p">Published</option>
+                        <option value="r">Churn Rating</option>
+                        <option value="v">Views</option>
+                        <option value="t">Twitter Views</option>
+                    </select>
+                </div>
+            </div>
+            <div id="exploreWhiteWrapper">
+                <div id="articles"></div>    
+                <div id="exploreLoading" class="hidden"><p>Loading more results</p></div>
+            </div>
+        </div>
+        <div id="articlesTemplate" class="hidden">
+            <div id="articles">
+                <div class="article">
+                    <div class="articleMeta">
+                        <p class="press_releases"></p>
+                        <div class="quality"></div>
+                        <p class="journalists"></p>
+                        <p><a class="newspaper"></a>, <span class="published"></span></p>
+                    </div>
+                    <div class="visualisation"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" val="{{.csrf_token}}"/>
+{{end}}

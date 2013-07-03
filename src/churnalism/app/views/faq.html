@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Frequently Asked Questions{% endblock %}
+
+{% block description %}What is Churnalism.com? Churnalism.com is an independent, non-profit website to help the public distinguish between original journalism and 'churnalism'. {% endblock %}
+
+{% block content %}
+<div id="faqs" class="textpage">
+    <div id="textpageWrapper">
+        <h1>Frequently Asked Questions</h1>
+            <h2>What is churnalism.com?</h2>
+            <p>Churnalism.com is an independent, non-profit website built by the <a href="http://www.mediastandardstrust.org">Media Standards Trust</a> (charity number <a href="http://www.charitycommission.gov.uk/Showcharity/RegisterOfCharities/CharityWithoutPartB.aspx?RegisteredCharityNumber=1113680&SubsidiaryNumber=0">1113680</a>) to help the public distinguish between original journalism and ‘churnalism’.</p>
+
+            <h2>What is ‘churnalism’?</h2>
+   
+                <p>‘Churnalism’ is a news article that is published as journalism, but is essentially a press release without much added. In his landmark book, <em><a href="http://www.flatearthnews.net/">Flat Earth News</a><em>, <a href="http://www.nickdavies.net/">Nick Davies</a> wrote how ‘churnalism’ is produced by:</p>
+                     <blockquote>“Journalists who are no longer gathering news but are reduced instead to passive processors of whatever material comes their way, churning out stories, whether real event or PR artifice, important or trivial, true or false” (p.59).</blockquote>       
+                <p>According to the <a href="http://www.cardiff.ac.uk/jomec/research/researchgroups/journalismstudies/fundedprojects/qualitypress.html">Cardiff University research</a> that informed Davies’ book, 54% of news articles have some form of PR in them. The word 'churnalism' has been attributed to BBC journalist Waseem Zakir.</p>
+                <p>Of course not all churnalism is bad. Some press releases are clearly in the public interest (medical breakthroughs, government announcements, school closures and so on). But even in these cases, it is better that people should know what press release the article is based on than for the source of the article to remain hidden.</p>
+    
+            <h2>Why did you build churnalism.com?</h2>
+   
+                <p>We built the site as a public resource – to raise awareness about churnalism, to help people identify churnalism, and to encourage original journalism.</p>
+    
+            <h2>Where did the idea for churnalism.com come from?</h2>
+                <p>The idea for churnalism first emerged back in 2006 when Tom Steinberg, Chris Lightfoot, Francis Irving and Martin Moore met for a sandwich on Parkers Piece in Cambridge.</p>
+    
+            <h2>How does churnalism.com work?</h2>
+   
+                <p>The site compresses all articles published on national newspaper websites, on BBC news, and Sky news online, into a series of numbers based on 15 character strings (using a <a href="http://en.wikipedia.org/wiki/Hash_function">hash function</a>) and then stores them in a fast access database. When someone pastes in some text and clicks 'compare', the churn engine compresses the text entered and then searches for similar compressions (or 'common hashes'). If the engine finds any articles where the similarity is greater than 20%, then it suggests the article may be churn. Churnalism.com is powered off the back of the database of over three million compressed articles in <a href="http://journalisted.com">journalisted.com</a>.</p>
+    
+    
+            <h2>What does churnalism.com do?</h2>
+   
+                <p>This is what this website helps people do. On churnalism.com you can:</p>
+                <ul>
+                    <li>Compare a press release with over three million articles published by any national newspaper website, the BBC or Sky News since 2007</li>
+                    <li>See the percentage of the press release cut and pasted into news articles, and the number of characters that overlap</li>
+                    <li>See the press release side-by-side with an image of the article, showing which bits have been copied</li>
+                    <li>Share examples of churn via twitter and facebook</li>
+                    <li>Search examples of churn saved by other people and scraped by churnalism.com</li>
+                </ul>
+    
+
+            <h2>Why do people have to paste in press releases to churnalism.com?</h2>
+   
+                <p>Many press releases are sent directly to news organisations and/or journalists and are never published online.</p>
+                <p>For this reason the site relies on you - the public - to paste in and save the text of press releases. Once you’ve pasted them in and saved them, then other people can see them too, creating a public resource connecting press releases with news articles.</p>
+                <p>To help things along the site also automatically collects and compares some press releases from a few notable public and private organisations (eg. the government news distribution service, Tesco, Sainsbury’s, Waitrose).</p>
+                <p>If you know of any good sources of press releases on the web then please let us know (by emailing <a href="mailto:team@churnalism.com">team@churnalism.com</a>) so we can automatically collect and compare them.</p>
+    
+    
+            <h2>What effect will churnalism.com have on journalism?</h2>
+   
+                <p>Our hope is that, eventually, this website should become redundant, as news articles link to sources as a matter of course and provide comparisons of articles with press releases themselves.</p>
+
+                <p>In the meantime churnalism.com ought to provide a useful and constructive (and perhaps slightly mischievous) public service.</p>
+    
+
+            <h2>Who developed the site?</h2>
+           <p>The technology behind the site was developed by <a href="http://www.availableimagination.com/">Donovan Hide</a>, with some help from <a href="http://scumways.com/">Ben Campbell</a>. The site was conceived and developed by <a href="http://martinjemoore.com/">Martin Moore</a> and <a href="http://scumways.com/">Ben Campbell</a> with support from <a href="http://uk.linkedin.com/pub/gavin-freeguard/5/a36/1a2">Gavin Freeguard</a> and <a href="http://camillaschickova.com/">Camilla Schick</a>. <a href="http://unitedagents.co.uk/chris-atkins">Chris Atkins</a> helped to raise awareness about the site. It was designed by <a href="http://www.double-sided.com/">Double Sided</a>.</p>
+
+            <h2>Who is the site run by and how is it funded?</h2>
+   
+                <p>The site is run by the <a href="http://mediastandardstrust.org">Media Standards Trust</a> with funding from charitable foundations and donations. If you would like to support churnalism.com you can donate to the Media Standards Trust at <a href="http://www.justgiving.com/mediastandardstrust/Donate">Just Giving</a>.</p>
+
+                <p>If you would like to discuss the site, or would like to offer suggestions as to how it could be
+        improved, please contact us at <a href="mailto:team@churnalism.com">team@churnalism.com</a>.</p>
+    
+            <h2>Compatibility with different internet browsers</h2> 
+                <p>Churnalism.com works in IE8, IE9, Firefox, Safari and Chrome. It does not work in IE6 or IE7. To get it to work in IE6 or IE7 would take us about two more weeks programming time.</p>
+
+            <h2>How can I get involved?</h2>
+   
+                <p>To work, churnalism.com needs members of the public to paste in and save press releases that they receive and/or find. Once the press releases have been pasted in and saved, then other people can see them too, creating a public resource connecting press releases with news articles. If you know of any good sources of press releases on the web then please let us know (by emailing <a href="mailto:team@churnalism.com">team@churnalism.com</a>) so we can automatically collect and compare them. Would you like to help write a press release scraper? Instructions <a href="https://github.com/mediastandardstrust/pr_scrapers">here</a>.</p>
+
+            <h2>How can I get in touch?</h2>
+   
+                <p>You can contact us via email at <a href="mailto:team@churnalism.com">team@churnalism.com</a>, by phone at +44 (0)20 7727 5252,
+            or by letter at Media Standards Trust, 5/7 Vernon Yard, Portobello Road, London W11 2DX.
+                </p>
+    
+    
+            <h2>Acknowledgements</h2>
+           <p>This site makes use of <a href="http://www.djangoproject.com">Django</a>, <a href="http://fallabs.com/kyotocabinet/">Kyoto Cabinet</a> and <a href="http://fallabs.com/kyototycoon/">Kyoto Tycoon</a>. Thanks to <a href="http://neil.fraser.name/">Neil Fraser</a> for algorithmic advice and inspiration, <a href="http://fallabs.com/mikio/">Mikio Hirabayashi</a> for advice, features and bug fixes, <a href="http://jackmottram.com">Jack Mottram</a> for help with testing and CSS and finally Pete at <a href="http://www.mythic-beasts.com/">Mythic Beasts</a> for advice and help with server configuration.</p>
+        
+            <h2>What news articles does it cover?</h2>
+   
+                <p>Right now churnalism.com covers the UK national press, the BBC and Sky news online. It has most articles from these outlets going back to early 2007. Articles are updated and indexed every few hours. We hope to extend coverage to include local and specialist publications, but that depends on how the site is used and on future funding.</p>
+    </div>
+</div>
+{% endblock %}

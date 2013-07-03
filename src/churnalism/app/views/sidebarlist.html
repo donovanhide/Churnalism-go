@@ -1,0 +1,9 @@
+{{define "sidebar"}}
+<ol class="tabsList">
+	{{ range .PressReleases }}
+	<li><a href="{{.Url}}">
+		{{.Title}}
+	</a></li>
+	{{end}}	
+</ol>
+{{end}}

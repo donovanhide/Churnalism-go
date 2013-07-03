@@ -1,0 +1,17 @@
+{{define "share"}}
+<div id="share">
+    <p>Share this page</p>
+    <input value="{{.Url}}" class="clipboardlink" type="text">
+    <ul>
+        <li>
+            <span id="clipboardlink" style="display:none;">{{.Url}}</span>
+            <span id="clippy_tooltip" title="Copy to clipboard" gravity="s">
+                {% load clippy %}
+                {% clippy "clipboardlink" %}
+            </span>
+        </li>
+        <li><a href="http://twitter.com/share?url={{.Url|urlquery}}&amp;text=Here's an example of #churnalism !&amp;count=vertical" target="_blank"><img src="/static/img/twitter.png" alt="Twitter" width="14" height="14" /></a></li>
+        <li><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A//staging.churnalisted.com/6aadj/&amp;layout=button_count&amp;show_faces=true&amp;width=16&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" allowTransparency="true"></iframe></li>
+    </ul>
+</div>
+{{end}}
