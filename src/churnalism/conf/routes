@@ -10,4 +10,5 @@ GET     /                                       App.Index
 GET     /public/*filepath                       Static.Serve("public")
 
 # Catch all
+*       /:action/		                    	App.:action
 *       /:controller/:action                    :controller.:action

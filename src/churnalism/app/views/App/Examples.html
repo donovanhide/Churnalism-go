@@ -1,15 +1,11 @@
-{{define "examples"}}
 {{set . "Title" "Examples"}}
 {{set . "Description" "Examples of 'churnalism' in recent months."}}
 {{template "header"}}
 {{template "utilities"}}
 <div id="examples" class="textpage">
     <div id="textpageWrapper">
-
         <h1>Examples</h1>
-
         <h2>Top 50 press releases in the last 3 months</h2>
-        
         <ol>
             {{ range .HighScores }}
             <li>
@@ -24,4 +20,3 @@
         </ol>
     </div>
 </div>
-{{end}}

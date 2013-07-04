@@ -1,10 +1,9 @@
-{{define "explore"}}
 {{set . "Title" "Explore"}}
 {{set . "Description" "Explore the 'churnalism' archive by newspaper, journalist and time."}}
 {{append . "moreScripts" "/static/js/jquery.isotope.js"}}
 {{append . "moreScripts" "/static/js/explore.js"}}
-{{template "header"}}
-{{template "utilities"}}
+{{template "header" .}}
+{{template "utilities" .}}
 
 <div id="explore" class="textpage">
     <div id="textpageWrapper">
@@ -62,4 +61,5 @@
     </div>
 </div>
 <input type="hidden" val="{{.csrf_token}}"/>
-{{end}}
+
+{{template "footer" .}}

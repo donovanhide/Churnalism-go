@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{{set . "Title" "Frequently Asked Questions"}}
+{{set . "Description" "What is Churnalism.com? Churnalism.com is an independent, non-profit website to help the public distinguish between original journalism and 'churnalism'."}}
+{{append . "moreScripts" "/static/js/jquery.isotope.js"}}
+{{append . "moreScripts" "/static/js/explore.js"}}
+{{template "header" .}}
+{{template "utilities" .}}
 
-{% block title %}Frequently Asked Questions{% endblock %}
-
-{% block description %}What is Churnalism.com? Churnalism.com is an independent, non-profit website to help the public distinguish between original journalism and 'churnalism'. {% endblock %}
-
-{% block content %}
 <div id="faqs" class="textpage">
     <div id="textpageWrapper">
         <h1>Frequently Asked Questions</h1>
@@ -89,4 +89,4 @@
                 <p>Right now churnalism.com covers the UK national press, the BBC and Sky news online. It has most articles from these outlets going back to early 2007. Articles are updated and indexed every few hours. We hope to extend coverage to include local and specialist publications, but that depends on how the site is used and on future funding.</p>
     </div>
 </div>
-{% endblock %}
+{{template "footer" .}}

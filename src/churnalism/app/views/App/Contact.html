@@ -1,10 +1,7 @@
-{% extends "base.html" %}
+{{set . "Title" "Contact"}}
+{{set . "Description" "Churnalism.com is an independent, non-profit website to help the public distinguish between original journalism and 'churnalism'."}}
+{{template "header" .}}
 
-{% block title %}Contact{% endblock %}
-
-{% block description %}Churnalism.com is an independent, non-profit website to help the public distinguish between original journalism and 'churnalism'. {% endblock %}
-
-{% block content %}
 <div id="contact" class="textpage">
     <div id="textpageWrapper">
         <h1>Contact</h1>
@@ -40,5 +37,4 @@
         <noscript>You need JavaScript to see my email address</noscript></p>
     </div>
 </div>
-
-{% endblock %}
+{{template "footer" .}}

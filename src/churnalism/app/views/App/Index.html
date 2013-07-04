@@ -1,6 +1,7 @@
-{{append . "moreScripts" "/static/js/results.js"}}
-{{template "header" }}
-{{template "utilities"}}
+{{append . "moreScripts" "/public/js/results.js"}}
+{{set . "Title" "Search"}}
+{{template "header" . }}
+{{template "utilities" .}}
 <div id="main">
     <!-- Homepage -->
     <div id="home">
@@ -169,4 +170,4 @@
         </div>
     <!-- end Main -->
     </div>
-{{template "footer"}}
+{{template "footer" .}}

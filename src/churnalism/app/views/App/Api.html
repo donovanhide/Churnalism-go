@@ -1,15 +1,10 @@
-{% extends "base.html" %}
+{{set . "Title" "API"}}
+{{set . "Description" "Use the Churnalism.com API to search for news articles that contain sections of the input text."}}
+{{template "header" .}}
+{{template "utilities" .}}
+{{append . "moreScripts" "/static/js/json2.js"}}
+{{append . "moreScripts" "/static/js/api.js"}}
 
-{% block title %}API{% endblock %}
-
-{% block description %}Use the Churnalism.com API to search for news articles that contain sections of the input text.{% endblock %}
-
-{% block scripts %}
-<script type="text/javascript" src="/static/js/json2.js"></script>
-<script type="text/javascript" src="/static/js/api.js"></script>
-{% endblock %}
-
-{% block content %}
 <div id="api" class="textpage">
     <div id="textpageWrapper">
         <h1>API: Search</h1>
@@ -79,7 +74,4 @@ print json
         </div>
     </div>
 </div>
-{# <div id="visualisation"></div> #}
-{# <script type="text/javascript" src="https://www.google.com/jsapi"></script> #}
-{# <script type="text/javascript" src="/static/js/coverage.js"></script> #}
-{% endblock %}
+{{template "footer" .}}
