@@ -4,11 +4,17 @@
 
 module:testrunner
 
-GET     /                                       App.Index
-
 # Map static resources from the /app/public folder to the /public path
 GET     /public/*filepath                       Static.Serve("public")
 
-# Catch all
-*       /:action/		                    	App.:action
-*       /:controller/:action                    :controller.:action
+GET     /                                       App.Index
+GET     /retrieve								App.Retrieve
+POST    /search									App.Search
+POST	/save									App.Save
+GET		/suggest								App.Suggest
+GET     /faq									App.Faq
+GET     /contact								App.Contact
+GET     /examples								App.Examples
+GET     /explore								App.Explore
+GET     /api									App.Api
+GET     /:id									App.Result

@@ -11,7 +11,10 @@
                     <h2>Paste text below</h2>
                     <form id="churn" action="/search/" method="post"> 
                         <div id="homepageEntryWrapper">
-                            {{ .Text }}
+                        	{{with $field := field "article.Text" .}}
+                            <textarea help="Paste some text that you would like to search against. Must be at least 15 characters long." name="{{$field.Name}}" id="{{$field.Id}}" minlength="15" tabindex="2" gravity="sw" class="churnText required">	
+                            </textarea>
+                            {{end}}
                         </div>
                         <a id="search" class="hand right" href="#results">Compare with articles in UK national press and BBC</a>
                     </form>
@@ -19,15 +22,15 @@
             </div>
             <div id="textEntered">
                 <h2>Text entered</h2>
-                {{if .Text}}
+                {{if .article.Text}}
                 <div class="detailsResults">
-                <p><strong>{{.Title}}</strong></p>
-                <p>{{.Origin}}</p>
-                <p>{{.Published}}</p>
+                <p><strong>{{.article.Title}}</strong></p>
+                <p>{{.article.Scraper}}</p>
+                <p>{{date .article.Published}}</p>
                 </div>
                 {{end}}
                 <div id="text">
-                    {{.Text}}
+                    {{nl2br .article.Text}}
                 </div>
                 <p class="hidden warningLine">Text entered is not saved. <a class="showSave" href="#">Save now</a></p>
             </div>  
@@ -35,7 +38,7 @@
                 <h3>Save above text so that it can be shared and viewed side-by-side with news articles</h3>
                 <form id="saveChurn" action="/save/" method="post">
                     {{ .csrf_token }}
-                    {{ .ShortTitle }}
+                    {{ .Id }}
                     <label for="churnTitle">Title <span>(eg Big Corp launches new product)</span></label>
                     <label class="churnPublishLabel" for="churnPublish">Publish date</label>
                     {{ .Title}}
@@ -44,14 +47,14 @@
                     <label for="churnFound">Where did you find it?</label>
                     <br class="clear" />
                     {{ .Source }}
-                    {{ .SourceLink }}
+                    {{ .Url }}
                     <input type="submit" name="submit" class="button" id="save" value="Save">
                 </form>
             </div>
         <!-- end left -->  
         </div>
         <div id="right">
-            {{ template "sidebar" }}
+            {{ template "sidebar" .}}
         </div>
         <table id="results" class="hidden">
             <colgroup>

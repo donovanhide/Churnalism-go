@@ -1,3 +1,4 @@
+{{define "sidebar"}}
 <div id="tabs">
 	<ul>
 		<li><a href="#tabs-1">Latest</a></li>
@@ -5,18 +6,13 @@
 		<li><a href="#tabs-3">Most shared</a></li>
 	</ul>
 	<div id="tabs-1">
-        {% with high_scores as press_releases %}
-        {% include "sidebarlist.html" %}
-        {% endwith %}
+		{{template "sidebarlist" .stats.HighScores}}
 	</div>
 	<div id="tabs-2">
-		{% with most_viewed as press_releases %}
-        {% include "sidebarlist.html" %}
-        {% endwith %}
+		{{template "sidebarlist" .stats.MostViewed}}
 	</div>
 	<div id="tabs-3">
-        {% with most_shared as press_releases %}
-        {% include "sidebarlist.html" %}
-        {% endwith %}		
+        {{template "sidebarlist" .stats.MostShared}}
 	</div>
 </div>
+{{end}}

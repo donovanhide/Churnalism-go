@@ -1,8 +1,8 @@
-{{define "sidebar"}}
+{{define "sidebarlist"}}
 <ol class="tabsList">
-	{{ range .PressReleases }}
-	<li><a href="{{.Url}}">
-		{{.Title}}
+	{{ range . }}
+	<li><a href="{{url "App.Result" .Id}}">
+		{{truncatechars .Title 35 }}
 	</a></li>
 	{{end}}	
 </ol>

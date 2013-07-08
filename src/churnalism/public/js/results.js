@@ -8,7 +8,7 @@ $(document).ready(function(){
     }
     
     function getCleanText(){
-        return $('textarea[name=text]').val().replace(/\n/g, "<br/>").replace(/\n\n+/g, '<br/><br/>').replace(/(\<\/?)script/g,"$1noscript");
+        return $('textarea[name=article.Text]').val().replace(/\n/g, "<br/>").replace(/\n\n+/g, '<br/><br/>').replace(/(\<\/?)script/g,"$1noscript");
     }
     
     function sendData(form){
@@ -217,7 +217,7 @@ $(document).ready(function(){
                                                                     hintList    : ['possibly', 'probably', 'definitely'],
                                                                     number      : 3,
                                                                     readOnly    : readOnly,
-                                                                    path        : '/static/images/',
+                                                                    path        : '/public/images/',
                                                                     start       : $(this).attr('score')
                                                        });
                                          if(!readOnly){$(this).click(function(){
