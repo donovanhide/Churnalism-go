@@ -116,14 +116,14 @@ $(document).ready(function(){
                                         $('div#exploreLoading').hide();
                                         $('div#results span#countDescription').html(countDescription(json.count)).attr('count',json.count);
                                         $('div#articlesTemplate').render(json,articlesTemplate);
-                                        if (!($.browser.msie && parseInt($.browser.version.substring(0,1))<9)){
+                                        // if (!($.browser.msie && parseInt($.browser.version.substring(0,1))<9)){
                                             $('div#articlesTemplate div.visualisation').drawMiniChurn({
                                                 LINE_LENGTH : 9.75,
                                                 SCALE       : 16
                                             });   
-                                        }else{
-                                            $('div#articlesTemplate div.visualisation').remove();
-                                        }
+                                        // }else{
+                                            // $('div#articlesTemplate div.visualisation').remove();
+                                        // }
                                         $('div.quality:empty').each(function(){
                                             $(this).raty({
                                                                         starOn      : 'recycle-small-on.png',
@@ -131,7 +131,7 @@ $(document).ready(function(){
                                                                         hintList    : ['possibly', 'probably', 'definitely'],
                                                                         number      : 3,
                                                                         readOnly    : true,
-                                                                        path        : '/static/images/',
+                                                                        path        : '/public/images/',
                                                                         start       : $(this).attr('score')
                                                            }); 
                                         });

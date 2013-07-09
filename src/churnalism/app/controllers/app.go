@@ -41,6 +41,10 @@ func (c App) Explore() revel.Result {
 	return c.Render()
 }
 
+func (c App) Browse() revel.Result {
+	return Stub(browse)
+}
+
 func (c App) Examples() revel.Result {
 	return c.Render()
 }

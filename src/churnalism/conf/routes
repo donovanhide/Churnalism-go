@@ -16,5 +16,6 @@ GET     /faq									App.Faq
 GET     /contact								App.Contact
 GET     /examples								App.Examples
 GET     /explore								App.Explore
+POST    /browse 								App.Browse
 GET     /api									App.Api
 GET     /:id									App.Result

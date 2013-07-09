@@ -8,7 +8,7 @@ $(document).ready(function(){
     }
     
     function getCleanText(){
-        return $('textarea[name=article.Text]').val().replace(/\n/g, "<br/>").replace(/\n\n+/g, '<br/><br/>').replace(/(\<\/?)script/g,"$1noscript");
+        return $('textarea[name="article.Text"]').val().replace(/\n/g, "<br/>").replace(/\n\n+/g, '<br/><br/>').replace(/(\<\/?)script/g,"$1noscript");
     }
     
     function sendData(form){
@@ -373,7 +373,7 @@ $(document).ready(function(){
                                 title   : function(){return 'Please <b>save</b> the entered text to view the side-by-side page';},
                                 gravity : 's',
 								offset  : 10
-    }).live('click',function(){return false;});
+    }).on('click',function(){return false;});
     
     $('select[name=source]').change(function(){
         $("select[name=source] option:selected").each(function () {  

@@ -320,7 +320,7 @@ $(document).ready(function(){
                                 gravity : 'sw',
                                 html    : true,
                                 offset  : 10,
-                                live    : true
+                                // live    : true
                            });
    //Autocomplete box
    $('input#search').catcomplete({
@@ -337,21 +337,16 @@ $(document).ready(function(){
                                offset  : 10
    });
    
-   //Clipboard icon
-   if (!$.browser.msie){
-       ZeroClipboard.setMoviePath('/static/swf/zeroclipboard.swf');
-       var clip = new ZeroClipboard.Client();
-       clip.setHandCursor( true );
-       clip.addEventListener('onMouseDown',function(){
-           $('div#clipboard').attr('help','Copied!').tipsy('hide').tipsy('show');
-           clip.setText($('input#shareUrl').val());
-       });
-       clip.addEventListener('onMouseOut',function(el){
-            $('div#clipboard').tipsy("hide").attr('help','Copy to clipboard');
-       });
-       $('div#clipboard').html(clip.getHTML(16,16));   
-   }
-   else{
-       $('div#clipboardContainer').hide();
-   }
+  //Clipboard icon
+  var clip = new ZeroClipboard( document.getElementById("div#clipboard"), {
+    moviePath: "/public/swf/ZeroClipboard.swf"
+  });
+  clip.on('complete',function(){
+    $('div#clipboard').attr('help','Copied!').tipsy('hide').tipsy('show');
+    clip.setText($('input#shareUrl').val());
+  });
+  clip.on('onMouseOut',function(el){
+    $('div#clipboard').tipsy("hide").attr('help','Copy to clipboard');
+  });
+   // $('div#clipboard').html(clip.getHTML(16,16));   
 });
