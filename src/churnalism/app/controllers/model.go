@@ -5,8 +5,8 @@ import (
 )
 
 type Article struct {
-	Id, Title, Scraper, Url, Text string
-	Published                     time.Time
+	Id, Title, Scraper, Source, Url, Text string
+	Published                             time.Time
 }
 
 type Stats struct {
