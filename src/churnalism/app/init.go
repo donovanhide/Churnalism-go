@@ -25,6 +25,8 @@ func init() {
 		revel.ActionInvoker,           // Invoke the action.
 	}
 
+	revel.TimeFormats = append(revel.TimeFormats, "02/01/06")
+
 	revel.TemplateFuncs["year"] = func() template.HTML {
 		return template.HTML(time.Now().Format("2006"))
 	}

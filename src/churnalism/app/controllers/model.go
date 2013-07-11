@@ -4,13 +4,13 @@ import (
 	"time"
 )
 
-type PressRelease struct {
+type Article struct {
 	Id, Title, Scraper, Url, Text string
 	Published                     time.Time
 }
 
 type Stats struct {
-	HighScores []PressRelease
-	MostViewed []PressRelease
-	MostShared []PressRelease
+	HighScores []Article
+	MostViewed []Article
+	MostShared []Article
 }

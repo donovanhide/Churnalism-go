@@ -1,10 +1,10 @@
 $(document).ready(function(){    
     function getShortTitle(){
-        return $('input[name=short_title]').val();
+        return $('input[name="article.Id"]').val();
     }
     
     function setShortTitle(short_title){
-        $('input[name=short_title]').val(short_title);
+        $('input[name="article.Id"]').val(short_title);
     }
     
     function getCleanText(){
@@ -19,7 +19,7 @@ $(document).ready(function(){
                                                                 if (json.count>0){
                                                                     setShortTitle(json.short_title);
                                                                     $('html').data('results',json);
-                                                                    $.address.value('results');
+                                                                    $.address.value('results');;
                                                                     change_state('results');   
                                                                 }else{
                                                                     change_state('noresults');
@@ -312,7 +312,7 @@ $(document).ready(function(){
             $('input#shareUrl').val(window.location.href);
         }
         switch(event.value){
-            case "results":
+            case "/results":
                     if (event.type=="externalChange"){
                         $.address.value(''); 
                     }
@@ -375,14 +375,14 @@ $(document).ready(function(){
 								offset  : 10
     }).on('click',function(){return false;});
     
-    $('select[name=source]').change(function(){
-        $("select[name=source] option:selected").each(function () {  
+    $('select[name="article.Source"]').change(function(){
+        $('select[name="article.Source"] option:selected').each(function () {  
               $('div.url-spacer').remove();
               if ($(this).text()=="Web"){
-                  $('input[name=source_link]').show().addClass('notplaceholder complete_url').removeAttr('disabled','');
+                  $('input[name="article.Url"]').show().addClass('notplaceholder complete_url').removeAttr('disabled','');
               }
               else{
-                  $('input[name=source_link]').hide().removeClass('notplaceholder complete_url').attr('disabled','disabled').after('<div class="url-spacer"></div>');
+                  $('input[name="article.Url"]').hide().removeClass('notplaceholder complete_url').attr('disabled','disabled').after('<div class="url-spacer"></div>');
               }
         });                                
     });

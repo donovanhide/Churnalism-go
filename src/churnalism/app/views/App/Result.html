@@ -37,17 +37,22 @@
             <div id="warningBox" class="hidden">
                 <h3>Save above text so that it can be shared and viewed side-by-side with news articles</h3>
                 <form id="saveChurn" action="/save/" method="post">
-                    {{ .csrf_token }}
-                    {{ .Id }}
+                    <input type="hidden" name="article.Id" id="id_short_title" class="placeholder">
                     <label for="churnTitle">Title <span>(eg Big Corp launches new product)</span></label>
                     <label class="churnPublishLabel" for="churnPublish">Publish date</label>
-                    {{ .Title}}
-                    {{ .Published }}
+                    <input help="What you want the press release listed as." name="article.Title" id="id_title" type="text" class="churnTitle notplaceholder placeholder" tabindex="2" placeholder="Enter the title" gravity="s" size="20" original-title="">
+                    <input help="Date the press release was published." name="article.Published" id="id_published" type="text" tabindex="3" placeholder="11/07/13" gravity="s" class="churnPublished datepicker hasDatepicker placeholder" original-title="">
                     <br class="clear" />
                     <label for="churnFound">Where did you find it?</label>
                     <br class="clear" />
-                    {{ .Source }}
-                    {{ .Url }}
+                    <select help="How you received the press release." name="article.Source" id="id_source" tabindex="4" gravity="s" class="churnFound">
+                        <option value="">---------</option>
+                        <option value="Web" selected="selected">Web</option>
+                        <option value="Email">Email</option>
+                        <option value="Publication">Publication</option>
+                        <option value="Printed Matter">Printed Matter</option>
+                    </select>
+                    <input help="The site where the press release came from." name="article.Url" id="id_source_link" type="text" tabindex="5" placeholder="Enter the URL" gravity="s" class="churnFoundUrl notplaceholder complete_url placeholder" original-title="">
                     <input type="submit" name="submit" class="button" id="save" value="Save">
                 </form>
             </div>
