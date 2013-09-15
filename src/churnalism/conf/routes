@@ -8,14 +8,14 @@ module:testrunner
 GET     /public/*filepath                       Static.Serve("public")
 
 GET     /                                       App.Index
-GET     /retrieve								App.Retrieve
 POST    /search									App.Search
+GET		/save 									App.Save
 POST	/save									App.Save
-GET		/suggest								App.Suggest
+POST	/suggest								App.Suggest
 GET     /faq									App.Faq
 GET     /contact								App.Contact
 GET     /examples								App.Examples
 GET     /explore								App.Explore
 POST    /browse 								App.Browse
 GET     /api									App.Api
-GET     /:id									App.Result
+GET     /:doctype/:docid						App.Result
