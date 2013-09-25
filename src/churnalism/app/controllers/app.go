@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"churnalism/app/models"
 	"encoding/json"
 	"fmt"
 	"github.com/robfig/revel"
@@ -14,12 +13,12 @@ import (
 
 func init() {
 	revel.OnAppStart(func() {
-		req, err := http.Get(apiAddress() + "/document/1/")
+		resp, err := http.Get(apiAddress() + "/document/1/")
 		if err != nil {
 			revel.INFO.Fatalf("Can't get user documents docid from superfastmatch instance: %s", err)
 		}
 		var values map[string]int
-		json.NewDecoder(req.Body).Decode(&values)
+		json.NewDecoder(resp.Body).Decode(&values)
 		cache.Set("docid", values["totalRows"]+1, cache.FOREVER)
 	})
 }
@@ -33,14 +32,25 @@ type App struct {
 }
 
 func (c App) Index() revel.Result {
-	c.RenderArgs["stats"] = stats
-	c.RenderArgs["article"] = models.Article{}
 	return c.RenderTemplate("App/Result.html")
 }
 
-func (c App) Result(id string) revel.Result {
-	article := GetArticle(id)
-	return c.Render(article, stats)
+func (c App) Result(doctype, docid uint32) revel.Result {
+	url := fmt.Sprintf("%s/document/%d/%d/", apiAddress(), doctype, docid)
+	resp, err := http.Get(url)
+	if err != nil {
+		revel.ERROR.Println(err)
+		return c.RenderError(err)
+	}
+	if resp.StatusCode == http.StatusNotFound {
+		return c.Redirect(App.Index)
+	}
+	var document map[string]interface{}
+	if err := json.NewDecoder(resp.Body).Decode(&document); err != nil {
+		return c.RenderError(err)
+	}
+	c.RenderArgs["Document"] = document
+	return c.RenderTemplate("App/Result.html")
 }
 
 func (c App) Suggest() revel.Result {
@@ -55,7 +65,7 @@ func (c App) Save() revel.Result {
 	if err != nil {
 		return c.RenderError(err)
 	}
-	url := fmt.Sprintf("%s/document/1/%d/", apiAddress(), docid)
+	url := fmt.Sprintf("%s/document/1/%d/2-1000/", apiAddress(), docid)
 	req, _ := http.NewRequest("POST", url, strings.NewReader(c.Request.Form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	return &PassThrough{req}
@@ -102,6 +112,7 @@ func (r *PassThrough) Apply(req *revel.Request, resp *revel.Response) {
 		resp.WriteHeader(500, "text/plain")
 		resp.Out.Write([]byte(err.Error()))
 	}
+	defer proxyResponse.Body.Close()
 	resp.WriteHeader(proxyResponse.StatusCode, proxyResponse.Header.Get("Content-Type"))
 	io.Copy(resp.Out, proxyResponse.Body)
 }

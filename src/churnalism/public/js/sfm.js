@@ -5,15 +5,26 @@ var Document = Backbone.Model.extend({
 		return "/document/"+this.id.doctype+"/"+this.id.docid+"/";
 	},
 	idAttribute: 'id2',
+	groupedAssociations: function(field){
+		return new Backbone.Collection(_.map(this.get('associations').groupBy(function(doc){
+			return doc.get('metaData')[field];
+		}),function(docs,group){
+			return {
+				name: group,
+				associations: new DocumentList(docs)
+			}
+		}));
+	},
 	parse: function(response){
 		if (_.has(response,"id")){
 			response.id2=response.id.doctype+"/"+response.id.docid+"/"
 		}
-    	_.each(["documents","associations"],function(coll){
-	    	if (_.has(response,coll)){
-	    		response[coll]=new DocumentList(response[coll],{parse:true});
-	    	}    		
-    	});
+		if (_.has(response,"associations")){
+			associations=_.map(response["associations"],function(a){
+				return _.extend(a,{parent:this})
+			},this)
+			response["associations"]=new DocumentList(associations,{parse:true});
+		}
     	if (_.has(response,'fragments')){
 	    	left=this._mergeFragments(response.fragments,0);
 	    	right=this._mergeFragments(response.fragments,1);
@@ -52,17 +63,17 @@ var Search = Document.extend({
 			minLength:30
 		},
 		title:{
-			required: function(){return this.hasResults()}
+			required: function(){return this.get("mode")=="save"}
 		}
 	},
 	noResults: function(){
 		return this.has('success')&&!this.get('success')
 	},
 	hasResults: function(){
-		return this.has("documents")
+		return this.has("associations")
 	},
 	numResults: function(){
-		return this.get("documents").length
+		return this.get("associations").length
 	},
 	execute: function(){
 		model=this;
@@ -74,6 +85,8 @@ var Search = Document.extend({
 		})
 	},
 	save: function(fields){
-		$.post('/save/',this.pick(fields))
+		$.post('/save/',this.pick(fields)).done(function(data){
+			model.trigger('saved',data.source);
+		})
   	},
 })

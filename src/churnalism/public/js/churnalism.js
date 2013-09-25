@@ -24,15 +24,19 @@ var SearchView = Marionette.ItemView.extend({
     	'#noResults':{
 			observe: 'totalRows',
     		visible: function(val){return val===0}
-    	},
-    	'#searchForm':{
-    		observe: 'documents',
-    		visible: function(){return !this.model.hasResults()}
-    	},
-    	'#saveForm':{
-    		observe: 'documents',
-    		visible: function(){return this.model.hasResults()}
-    	},
+    	}
+  	},
+  	getTemplate: function(){
+  		switch(this.model.get('mode')){
+  		case "search":
+  			return '#searchTemplate';
+  		case "save":
+  			return '#saveTemplate';
+  		case "saved":
+  			return '#savedTemplate';
+  		case "sidebyside":
+  			return '#sidebysideTemplate'
+  		}
   	},
 	onDomRefresh: function(){
     	Backbone.Validation.bind(this);
@@ -44,6 +48,7 @@ var SearchView = Marionette.ItemView.extend({
   		el=this.$el;
   		el.find('*').removeClass('has-error');
   		_.each(this.model.validate(),function(k,v){
+  			console.log(k,v);
   			el.find('#'+v).parent().addClass('has-error');
   		});
   		this.ui.buttons.prop('disabled',!this.model.isValid());
@@ -57,7 +62,7 @@ var SearchView = Marionette.ItemView.extend({
   	save: function(e){
   		e.preventDefault();
   		if(this.model.isValid(true)){
-  			this.model.save(['title','text','published','source']);
+  			this.model.save(['title','text','published','source','type']);
   		}
   	}
 })
@@ -94,10 +99,10 @@ var ResultView = Marionette.ItemView.extend({
 	    		return _.has(this,"metaData")?moment(_.first(this.metaData.published)).format('Do MMMM YYYY'):""
 	    	},
 	    	score: function(){
-	    		return Number((this.leftCharacters/search.get('text').length+this.rightCharacters/this.characters)*1.5).toFixed(0)
+	    		return Number((this.leftCharacters/this.parent.get('text').length+this.rightCharacters/this.characters)*1.5).toFixed(0)
 	    	},
 	    	cut: function(){
-	    		return Number(this.leftCharacters/search.get('text').length*100).toFixed(0)
+	    		return Number(this.leftCharacters/this.parent.get('text').length*100).toFixed(0)
 	    	},
 	    	paste: function(){
 	    		return Number(this.rightCharacters/this.characters*100).toFixed(0)
@@ -109,7 +114,7 @@ var ResultView = Marionette.ItemView.extend({
   	},
   	onRender: function(){
   		vis=Raphael(this.ui.visualisation.get(0),180,60);
-  		this.buildMiniChurn(vis,this.model.get('leftFragments'),this.options.search.get('text').length);
+  		this.buildMiniChurn(vis,this.model.get('leftFragments'),this.model.get('parent').get('text').length);
   		this.buildMiniChurn(vis,this.model.get('rightFragments'),this.model.get('characters')).transform("t100,0");
   	},
   	buildMiniChurn: function(vis,fragments,length){
@@ -133,36 +138,44 @@ var ResultView = Marionette.ItemView.extend({
   	}
 })
 
-var ResultsView = Marionette.CompositeView.extend({
-	template: '#resultsTemplate',
+var ResultsGroupView = Marionette.CompositeView.extend({
+	template: '#resultsGroupTemplate',
 	itemView: ResultView,
-	itemViewOptions:function(){
-		return {
-			search: this.model
-		}
-	},
 	itemViewContainer: "tbody",
 	initialize: function(options){
-		this.collection=this.model.get('documents');
+		this.collection=this.model.get("associations");
+	},
+	templateHelpers:{
+		title: function(){
+			count=this["associations"].length;
+			return count+" "+_.humanize(this["name"])+((count>1)?"s":"");
+		}
+	}
+})
+
+var ResultsView = Marionette.CompositeView.extend({
+	template: '#resultsTemplate',
+	itemView: ResultsGroupView,
+	itemViewContainer: "section",
+	initialize: function(options){
+		this.collection=this.model.groupedAssociations("type");
 	}
 })
 
 var App = new Marionette.Application();
 
 App.addInitializer(function(options){
+	App.Search=new Search(doc,{parse:true});
 	App.addRegions({
 		left: '#left',
 		right: '#right',
 		bottom: '#bottom'
 	});
-	App.Search=new Search({
-		title:"",
-		text:"",
-		source:"",
-		published: moment().format('YYYY-MM-DD')
-	});
     App.Search.on("executed",function(){
     	router.navigate("save/",{trigger:true});
+    });
+    App.Search.on("saved",function(id){
+    	router.navigate(id.doctype+"/"+id.docid,{trigger:true});
     })
 });
 
@@ -172,28 +185,42 @@ App.on("initialize:after", function(){
 
 var AppRouter=Marionette.AppRouter.extend({
   	appRoutes: {
-        ""				: "search",
-        "save/"			: "save",
-        ":doc/"			: "results",
-        ":left/:right/"	: "sidebyside"
+        ""						: "search",
+        "save(/)"				: "save",
+        ":doctype/:docid(/)"	: "results",
+        ":left#:right(/)"		: "sidebyside"
     }
 });
 
 var controller={
     search: function(){
+    	App.Search.clear();
+    	App.Search.set({
+			title:"",
+			text:"",
+			source:"",
+			type:"search",
+			published: moment().format('YYYY-MM-DD')
+		});
+    	App.Search.set({mode:"search"});
 		App.left.show(new SearchView({ model:App.Search}));
 		App.right.show(new SideBarView());
+		App.bottom.close();
     },
     save: function(){
+    	App.Search.set({mode:"save"});
     	App.left.show(new SearchView({ model:App.Search}));
 		App.right.show(new SideBarView());
     	App.bottom.show(new ResultsView({model: App.Search}));
     },
     results: function(){
-
+    	App.Search.set({mode:"saved"});
+    	App.left.show(new SearchView({ model:App.Search}));
+		App.right.show(new SideBarView());
+    	App.bottom.show(new ResultsView({model: App.Search}));
     },
     sidebyside: function(){
-
+    	console.log("sidebyside");
     }
 }
 
