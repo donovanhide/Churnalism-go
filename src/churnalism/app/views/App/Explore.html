@@ -1,10 +1,6 @@
 {{set . "Title" "Explore"}}
 {{set . "Description" "Explore the 'churnalism' archive by newspaper, journalist and time."}}
-{{append . "moreScripts" "/public/js/jquery.isotope.js"}}
-{{append . "moreScripts" "/public/js/explore.js"}}
-{{template "header" .}}
-{{template "utilities" .}}
-
+{{template "header.html" .}}
 <div id="explore" class="textpage">
     <div id="textpageWrapper">
         <h1>Explore churnalism by:</h2>
@@ -62,4 +58,4 @@
 </div>
 <input type="hidden" val="{{.csrf_token}}"/>
 
-{{template "footer" .}}
+{{template "footer.html" .}}

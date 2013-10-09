@@ -8,9 +8,11 @@ module:testrunner
 GET     /public/*filepath                       Static.Serve("public")
 
 GET     /                                       App.Index
+GET		/save 									App.Index
+GET		/slurp/									App.Slurp
 POST    /search									App.Search
-GET		/save 									App.Save
-POST	/save									App.Save
+POST	/document								App.Document
+POST	/association/:doctype/:docid			App.Association
 POST	/suggest								App.Suggest
 GET     /faq									App.Faq
 GET     /contact								App.Contact

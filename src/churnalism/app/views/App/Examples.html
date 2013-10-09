@@ -1,8 +1,7 @@
 {{set . "Title" "Examples"}}
 {{set . "Description" "Examples of 'churnalism' in recent months."}}
-{{template "header" .}}
-<div id="examples" class="textpage">
-    <div id="textpageWrapper">
+{{template "header.html" .}}
+
         <h1>Examples</h1>
         <h2>Top 50 press releases in the last 3 months</h2>
         <ol>
@@ -17,6 +16,4 @@
             </li>
             {{ end }}
         </ol>
-    </div>
-</div>
-{{template "footer" .}}
+{{template "footer.html" .}}

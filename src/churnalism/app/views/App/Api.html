@@ -1,38 +1,24 @@
 {{set . "Title" "API"}}
 {{set . "Description" "Use the Churnalism.com API to search for news articles that contain sections of the input text."}}
-{{template "header" .}}
-{{append . "moreScripts" "/static/js/json2.js"}}
-{{append . "moreScripts" "/static/js/api.js"}}
-
-<div id="api" class="textpage">
-    <div id="textpageWrapper">
-        <h1>API: Search</h1>
-         <p>Return a list of articles matching the supplied text.</p> 
-         <p><code>http://churnalism.com/api/search/</code></p>
-         <p>This API must be invoked via a POST. GETs will be ignored. The 
-         amount of text typically searched for is large enough that encoding 
-         it in the url for a GET becomes a little unwieldly.</p> 
-         <p>The results are returned as <a href="http://www.json.org/">json</a>.</p>
-      
-         <h2>Parameters:</h2> 
-         <dl> 
-             <dt><code>text</code></dt> 
-             <dd>The text to search for (eg the body of a press release). This must contain at least 15 characters.</dd> 
-         </dl> 
-      
-         <h2>Returns:</h2> 
-      
-         <dl> 
-             <dt><code>success</code></dt> 
-             <dd>boolean - false if an error occured, in which case <code>error</code> will be the only other field returned.</dd> 
-      
-             <dt><code>error</code></dt> 
-             <dd>Information about what went wrong. Only included if success is false.</dd> 
-      
-             <dt><code>articles</code></dt> 
-             <dd> 
-                 list of articles matching the submitted text. Each entry has the 
-                 following fields: 
+{{template "header.html" . }}
+    <h3>API: Search</h3>
+    <p>Return a list of articles matching the supplied text.</p> 
+    <p><code>http://churnalism.com/search/</code></p>
+    <p>This API must be invoked via a POST. GETs will be ignored. The 
+    amount of text typically searched for is large enough that encoding 
+    it in the url for a GET becomes a little unwieldly.</p> 
+    <p>The results are returned as <a href="http://www.json.org/">json</a>.</p>  
+    <h5>Parameters:</h5> 
+    <dl class="dl-horizontal"> 
+        <dt><code>text</code></dt> 
+        <dd>The text to search for (eg the body of a press release). This must contain at least 15 characters.</dd> 
+    </dl> 
+    <h5>Returns:</h5> 
+        <dl class="dl-horizontal"> 
+            <dt><code>success</code></dt> 
+            <dd>boolean - false if an error occured, in which case <code>error</code> will be the only other field returned.</dd> 
+            <dt><code>associations</code></dt> 
+            <dd>list of articles matching the submitted text. Each entry has the following fields: 
                  <dl> 
                      <dt><code>source</code></dt> 
                      <dd>url of original article</dd> 
@@ -42,9 +28,6 @@
                      <dd>Number indicating the count of 15 character windows which match between the input text and the article</dd> 
                  </dl> 
              </dd> 
-      
-             <dt><code>query-time</code></dt> 
-             <dd>Time taken to process query, in seconds</dd> 
          </dl> 
          <h2>example (in python)</h2> 
          <pre><code>import urllib   # for urlencode 
@@ -71,6 +54,6 @@ print json
         <div class="block">
             <textarea id="result" class="churnText"></textarea>
         </div>
-    </div>
-</div>
-{{template "footer" .}}
+        </div>
+{{template "footer.html" . }}
+

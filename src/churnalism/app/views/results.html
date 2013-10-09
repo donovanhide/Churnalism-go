@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Churnalism | {{.Title}}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-  <script src="/public/js/libs.js" type="text/javascript" ></script>
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-  <!--[if lt IE 9]>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.2.0/respond.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js"></script>
-  <![endif]-->
-  <script>var doc={{.Document}}</script>
-  <script src="/public/js/sfm.js" type="text/javascript" ></script>
-  <script src="/public/js/churnalism.js" type="text/javascript" ></script>
-</head>
-<body>
-  <div class="container">
-    <div class="page-header">
-      <h1><a href="/">Churnalism.com</a> <small>Churn engine to distinguish journalism from churnalism</small></h1>
-    </div>
-    <div class="row">
+  <div class="row">
       <div id="left" class="col-md-9"></div>
       <div id="right" class="col-md-3"></div>
     </div>
@@ -30,23 +8,29 @@
   </div>
   <script id="searchTemplate" type="text/html">
     <form id="searchForm"  role="form">
+      <fieldset>
         <div class="form-group">
-          <textarea id="text" class="form-control" placeholder="Paste some text that you would like to search against." title="Must be at least 30 characters long." rows=10></textarea>
+          <input id="url" class="form-control" type="url" placeholder="Enter a url of a web page containing an article here." title="Must be a valid URL."></input>
+        </div>
+        <div class="form-group">
+          <button id="slurp" type="submit" class="btn btn-primary pull-right">Slurp</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="form-group">
+          <textarea id="text" class="form-control" placeholder="Or paste some text that you would like to search against." title="Must be at least 30 characters long." rows=10></textarea>
         </div>
         <div class="form-group">
           <button id="search" type="submit" class="btn btn-primary pull-right">Search</button>
+          <div id="noResults">
+            <p class="warningLine">No results found. Try again with a longer piece of text or <a href="/explore/">explore</a> some examples for inspiration.</p>
+          </div>
         </div>
-        <div id="noResults">
-          <p class="warningLine">No results found. Try again with a longer piece of text or <a href="/explore/">explore</a> some examples for inspiration.</p>
-        </div>
+      </fieldset>
     </form>
   </script>
   <script id="saveTemplate" type="text/html">
     <form id="saveForm" class="form-horizontal" role="form">
-        <div class="form-control-static">
-          <h4>Text entered</h4>
-          <p id="textEntered"></p>
-        </div>
         <div class="form-group">
           <label class="control-label col-md-1" for="title">Title</label>
           <div class="col-md-11">
@@ -56,7 +40,7 @@
         <div class="form-group">
           <label class="control-label col-md-1" for="source">Source</label>
           <div class="col-md-5">
-            <input id="source" class="form-control" type="url" title="Where the document was published." placeholder="e.g. http://www.dailymail.co.uk/tvshowbiz/article-2415420"></input>
+            <input id="source" class="form-control" type="url" title="Where the document was published. Must be a valid" placeholder="e.g. http://www.dailymail.co.uk/tvshowbiz/article-2415420"></input>
           </div>
           <label class="control-label col-md-2" for="published">Published</label>
           <div class="col-md-3">
@@ -66,9 +50,15 @@
             <button id="save" type="submit" class="btn btn-primary pull-right">Save</button>
           </div>
         </div>
+        <div class="form-control-static">
+          <h4>Text entered</h4>
+          <div id="text"></div>
+        </div>
     </form>
   </script>
   <script id="savedTemplate" type="text/html">
+  <h4><a id="title" href="<%=metaData.source%>"></a></h4>
+  <p id="published"></p>
   <div id="textEntered"></div> 
   </script>
   <script id="sidebarTemplate" type="text/html">
@@ -112,25 +102,28 @@
       <img src="/public/images/recycle-<%=(score()>1)?"on":"off"%>.png" alt="1">
       <img src="/public/images/recycle-<%=(score()>2)?"on":"off"%>.png" alt="1">
   </td>
-  <td class="article descriptionCell"> 
-      <a class="title" href="<%=permalink()%>"><%=shortTitle()%></a>
-      <p class="journalists"><%=journalists()%></p>
+  <td> 
+      <a class="title" href="<%=permalink()%>"><%=shortTitle()%></a><br/>
+      <%if (this.type=="newsarticle"){%>
+      <a class="journalists"><%=journalists()%></a>
       <a class="newspaper" href="<%=journalisted()%>"><%=source()%></a> 
+      <%}else{%>
+      <span class="source"><%=source()%>, </span>
+      <%}%> 
       <span class="published"><%=published()%></span>
   </td>
-  <td class="cutCell tipsy-hover" help="Percentage of entered text used in news article">
+  <td help="Percentage of entered text used in news article">
       <p class="similarity data"><%=cut()%>%</p>
-      <p class="caption">cut</p></td>
-  <td class="pasteCell tipsy-hover" help="Percentage of news article that is copied from entered text">
+      <p class="caption">cut</p>
+  </td>
+  <td help="Percentage of news article that is copied from entered text">
       <p class="recycling data"><%=paste()%>%</p>
-      <p class="caption">pasted</p></td>
-  <td class="overlapCell tipsy-hover" help="Number of consecutive characters that appear in both entered text and news article">
+      <small class="caption">pasted</p>
+  </td>
+  <td  help="Number of consecutive characters that appear in both entered text and news article">
       <p class="characters data"><%=overlap()%></p>
       <p class="caption">characters<br/>overlap</p>
   </td>
   <td id="visualisation" class="visualisationCell">
   </td>
   </script>
-  
-</body>
-</html>

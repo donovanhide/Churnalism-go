@@ -27,11 +27,22 @@ func apiAddress() string {
 	return revel.Config.StringDefault("churnalism.apiaddress", "http://sfm.churnalism.com")
 }
 
+func searchRange() string {
+	return revel.Config.StringDefault("churnalism.searchrange", "2-2000")
+}
+
+func readabilityToken() string {
+	return revel.Config.StringDefault("churnalism.readabilitytoken", "")
+}
+
 type App struct {
 	*revel.Controller
 }
 
 func (c App) Index() revel.Result {
+	if c.Request.URL.Path != "/" {
+		return c.Redirect("/")
+	}
 	return c.RenderTemplate("App/Result.html")
 }
 
@@ -39,9 +50,9 @@ func (c App) Result(doctype, docid uint32) revel.Result {
 	url := fmt.Sprintf("%s/document/%d/%d/", apiAddress(), doctype, docid)
 	resp, err := http.Get(url)
 	if err != nil {
-		revel.ERROR.Println(err)
 		return c.RenderError(err)
 	}
+	defer resp.Body.Close()
 	if resp.StatusCode == http.StatusNotFound {
 		return c.Redirect(App.Index)
 	}
@@ -57,25 +68,27 @@ func (c App) Suggest() revel.Result {
 	return Stub(terms)
 }
 
-func (c App) Save() revel.Result {
-	if c.Request.Method == "GET" {
-		return c.Redirect(App.Index)
+func (c App) Association(doctype, docid uint32) revel.Result {
+	if doctype != 1 {
+		return c.RenderError(fmt.Errorf("Doctype: %d not allowed", doctype))
 	}
+	url := fmt.Sprintf("%s/association/1/%d/%s/", apiAddress(), docid, searchRange())
+	return newProxyPost(url, &c.Request.Form)
+}
+
+func (c App) Document() revel.Result {
 	docid, err := cache.Increment("docid", 1)
 	if err != nil {
 		return c.RenderError(err)
 	}
-	url := fmt.Sprintf("%s/document/1/%d/2-1000/", apiAddress(), docid)
-	req, _ := http.NewRequest("POST", url, strings.NewReader(c.Request.Form.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	return &PassThrough{req}
+	url := fmt.Sprintf("%s/document/1/%d/", apiAddress(), docid)
+	return newProxyPost(url, &c.Request.Form)
 }
 
 func (c App) Search(text string) revel.Result {
 	values := url.Values{"text": {text}}
-	req, _ := http.NewRequest("POST", apiAddress()+"/search/", strings.NewReader(values.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	return &PassThrough{req}
+	url := fmt.Sprintf("%s/search/%s/", apiAddress(), searchRange())
+	return newProxyPost(url, &values)
 }
 
 func (c App) Api() revel.Result {
@@ -102,8 +115,23 @@ func (c App) Contact() revel.Result {
 	return c.Render()
 }
 
+func (c App) Slurp() revel.Result {
+	url := fmt.Sprintf("https://readability.com/api/content/v1/parser?url=%s&token=%s", c.Request.FormValue("url"), readabilityToken())
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return c.RenderError(err)
+	}
+	return &PassThrough{req}
+}
+
 type PassThrough struct {
 	*http.Request
+}
+
+func newProxyPost(url string, values *url.Values) *PassThrough {
+	req, _ := http.NewRequest("POST", url, strings.NewReader(values.Encode()))
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	return &PassThrough{req}
 }
 
 func (r *PassThrough) Apply(req *revel.Request, resp *revel.Response) {
