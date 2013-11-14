@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"churnalism/app/models"
+	"github.com/donovanhide/Churnalism-go/app/models"
 	"github.com/robfig/revel"
 	"net/http"
 	"time"
