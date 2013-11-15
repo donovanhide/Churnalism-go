@@ -86,7 +86,7 @@ func (c App) Document() revel.Result {
 }
 
 func (c App) Search(text string) revel.Result {
-	values := url.Values{"text": {text}}
+	values := url.Values{"text": {text}, "limit": {"20"}}
 	url := fmt.Sprintf("%s/search/%s/", apiAddress(), searchRange())
 	return newProxyPost(url, &values)
 }
