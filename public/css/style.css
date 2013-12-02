@@ -1,30 +1,106 @@
 /* Sticky footer styles
 -------------------------------------------------- */
 
+/**/
+@font-face {
+	font-family: 'CaeciliaLTStd75Bold';
+	src: url('/public/fonts/caecilialtstd-bold-webfont.eot');
+	src: local('Caecilia LT Std'), local('CaeciliaLTStdBold'), url('/public/fonts/caecilialtstd-bold-webfont.woff') format('woff'), url('/public/fonts/caecilialtstd-bold-webfont.ttf') format('truetype'), url('/public/fonts/caecilialtstd-bold-webfont.svg#webfontL11A3T4Z') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'CaeciliaLTStd55Roman';
+	src: url('/public/fonts/caecilialtstd-roman-webfont.eot');
+	src: local('/public/Caecilia LT Std'), local('CaeciliaLTStdRoman'), url('/public/fonts/caecilialtstd-roman-webfont.woff') format('woff'), url('/public/fonts/caecilialtstd-roman-webfont.ttf') format('truetype'), url('/public/fonts/caecilialtstd-roman-webfont.svg#webfontCupQ2MTv') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
 html,
 body {
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
 }
 
-/* Wrapper for page content to push down footer */
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  /* Negative indent footer by its height */
-  margin: 0 auto -60px;
-  /* Pad bottom by footer height */
-  padding: 0 0 60px;
-}
 
-/* Set the fixed height of the footer here */
-#footer {
-  height: 60px;
-  /*background-color: #f5f5f5;*/
-}
 
 div#text{
   overflow:auto;
   height:250px;
 }
+
+
+.tagline {
+    margin-top: 2px;
+    font-size: 14px;
+}
+
+/* underline */
+.tagline span {
+	background: url(/public/images/underline.png) 0 2px no-repeat;
+	height: 27px;
+}
+
+/****
+ * page header
+ */
+.page-header {
+  position: relative;
+  border-bottom: 2px solid black;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.logo {
+    position: absolute;
+    left: -90px;
+    width: 83px;
+    height: 125px;
+}
+
+
+.mstlink {
+    position: absolute;
+    bottom: 8px;
+    right: 0;
+	width: 77px;
+	height: 55px;
+}
+
+
+/****
+ * page main content
+ */
+.page-main {
+    background-color: #f2f2f2;
+}
+
+/****
+ * page footer
+ */
+.page-footer {
+  padding-top: 8px;
+  border-top: 2px solid black;
+  height: 60px;
+}
+
+
+/*****
+ * bootstrap tooltip overrides
+ */
+.tooltip.in {
+    opacity: 1;
+}
+
+.tooltip-inner {
+	border: 1px solid #e30b13;  /* @tooltip-arrow-color */
+    border-radius: 0;
+	-moz-box-shadow: 2px 2px 2px #d3d3d3;
+	-webkit-box-shadow: 2px 2px 2px #d3d3d3;	
+	box-shadow: 2px 2px 2px #d3d3d3;
+}
+
+
+.area { padding: 30px 20px; }
+

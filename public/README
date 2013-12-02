@@ -1,0 +1,51 @@
+Notes on site styling
+---------------------
+
+I'm using a customised bootstrap 3.
+
+The aim is to be able to easily track changes/improvements to bootstrap,
+rather than being left with a diverging fork.
+
+The current approach is to tweak just bootstrap variables.less file -
+which defines overall colours and the like - but leave the rest of it
+unchanged.
+Anything else is overridden in our custom stylesheet, css/style.css.
+Because it's included after the bootstrap css, we can override whatever
+we need.
+
+
+
+To build:
+
+a) grab the bootstrap source
+b) set up a build environment to build it (nodejs, grunt etc...)
+c) copy over less/variables.less with our custom one.
+d) build bootstrap (
+     $ grunt dist
+   ...and copy the resulting files back.
+
+
+Not sure if this minor-modification-plus-an-overrides-file approach is
+the right one. It's still to early to tell.
+
+Alternate approaches:
+
+1) just bite the bullet and maintain a custom fork of bootstrap.
+   Probably gives the best results, but it's a lot of overhead and
+   complexity - both in tracking changes and just setting up the build
+   environment.
+
+2) don't modify bootstrap at all, and do _everything_ via overrides in
+   style.css. This is probably simplest, but I'm not yet sure how much of
+   an arse it'd be - you have to override all the basic typography settings,
+   for example, without the benefit of the css preprocessor you have in
+   options 1).
+
+3) ditch bootstrap and just use custom CSS. The site is simple enough that
+   this is probably the right thing to do.... buuuut.... well, there's just
+   too many nice shiny things you get (mostly) for free with bootstrap -
+   responsive layouts etc...
+
+
+- Ben.
+
